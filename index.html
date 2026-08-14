@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="kitchen-island.jpg">
+<link rel="preload" as="image" href="story-heritage.jpg">
 <link rel="preload" as="image" href="story-refrigeration.jpg">
 <style>
   :root{
@@ -69,6 +69,8 @@
   nav .nav-links{display:flex;align-items:center;gap:36px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#fff;}
   nav .nav-links a{color:#fff;text-decoration:none;}
   nav .nav-right{display:flex;align-items:center;gap:28px;}
+  /* isolation:isolate opts this out of nav's mix-blend-mode:difference group, so
+     it keeps a stable gold/white color instead of inverting against photos */
   .btn-consult{
     isolation:isolate;
     display:inline-flex;align-items:center;
@@ -645,7 +647,7 @@
 
     <div class="stage-visual">
       <div class="photo-frame">
-        <img class="stage-photo" src="kitchen-island.jpg" alt="Gaggenau ovens built into a dark wood kitchen wall">
+        <img class="stage-photo" src="story-heritage.jpg" alt="Gaggenau ovens built into a dark wood kitchen wall">
         <img class="stage-photo" src="story-refrigeration.jpg" alt="Gaggenau refrigerator open, fully stocked">
         <img class="stage-photo" src="story-wine.jpg" alt="Gaggenau wine climate cabinet built into wood cabinetry">
         <img class="stage-photo" src="story-ovens.jpg" alt="Gaggenau oven, closed, finished form">
