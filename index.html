@@ -228,52 +228,61 @@
     width:100%;height:100%;
     object-fit:cover;
     opacity:0;
-    will-change:opacity, filter, transform;
+    will-change:opacity, transform;
     backface-visibility:hidden;
   }
-  .photo-shine{
-    position:absolute;top:0;left:-40%;width:35%;height:100%;
-    background:linear-gradient(100deg, transparent, rgba(255,255,255,0.28), transparent);
-    opacity:0;
-    pointer-events:none;
-    mix-blend-mode:screen;
-  }
+  .stage-photo:first-child{opacity:1;}
   .photo-frame::after{
     content:"";
     position:absolute;inset:0;
     box-shadow:inset 0 0 60px rgba(0,0,0,0.55);
     pointer-events:none;
   }
-  /* Fallback: if JS never runs, show the finished oven photo, sharp and in place */
-  .no-js .stage-photo#imgFinal{opacity:1 !important; filter:none !important;}
-  .no-js .stage-photo#imgRaw{opacity:0 !important;}
 
   .stage-text{
     position:relative;
     height:100%;
+    display:flex;
+    align-items:center;
   }
-  .panel{
-    position:absolute;
-    top:50%;left:0;
+  .story-steps{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
     width:min(88%,460px);
-    opacity:0;
-    transform:translateY(-50%);
-    will-change:opacity, transform;
-    pointer-events:none;
   }
-  .panel.active{opacity:1;pointer-events:auto;}
-  #panel-0{opacity:1;pointer-events:auto;} /* visible by default before JS attaches, or if JS never runs */
-  .panel .num{
-    font-size:12px;letter-spacing:0.2em;color:var(--gold);margin-bottom:18px;display:block;
+  .step{
+    will-change:transform;
+  }
+  .step-num{
+    display:block;
+    font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);
+    opacity:0.35;
+    margin-bottom:6px;
     font-family:'Inter',sans-serif;
   }
-  .panel h2{
-    font-size:clamp(32px,3.4vw,48px);
-    color:#f4f2ee;
-    margin-bottom:20px;
-    line-height:1.1;
+  .step h3{
+    display:block;
+    font-size:20px;
+    color:var(--steel);
+    line-height:1.15;
+    font-weight:400;
   }
-  .panel p{
+  .step.active h3{font-size:32px;color:#f4f2ee;}
+  .step.active .step-num{opacity:1;}
+  .step-body{
+    max-height:0;
+    opacity:0;
+    overflow:hidden;
+    transition:max-height 0.5s var(--ease), opacity 0.4s ease, margin-top 0.4s ease;
+    margin-top:0;
+  }
+  .step.active .step-body{
+    max-height:160px;
+    opacity:1;
+    margin-top:10px;
+  }
+  .step-body p{
     font-size:15px;line-height:1.75;color:var(--steel);
     font-weight:300;
     max-width:420px;
@@ -480,7 +489,7 @@
     .stage{grid-template-columns:1fr;grid-template-rows:1fr 1fr;}
     .photo-frame{width:66vw;}
     .stage-text{display:flex;align-items:flex-end;padding-bottom:60px;}
-    .panel{width:88%;left:6vw;}
+    .story-steps{width:88%;gap:14px;}
     .progress-rail{display:none;}
     .feature-grid{grid-template-columns:1fr;}
     .feature-layout{grid-template-columns:1fr;gap:36px;}
@@ -500,7 +509,7 @@
       Products <span class="chevron"></span>
     </button>
     <a href="#story">Craftsmanship</a>
-    <a href="#panel-0">Heritage</a>
+    <a href="#step-0">Heritage</a>
     <a href="#contact">Contact Us</a>
   </div>
   <div class="nav-right">
@@ -551,7 +560,7 @@
     </div>
   </details>
   <a href="#story">Craftsmanship</a>
-  <a href="#panel-0">Heritage</a>
+  <a href="#step-0">Heritage</a>
   <a href="#contact">Contact Us</a>
 </div>
 
@@ -575,51 +584,55 @@
 
     <div class="stage-visual">
       <div class="photo-frame">
-        <img id="imgRaw" class="stage-photo" src="oven-open.jpg" alt="Gaggenau oven with door open, revealing the interior">
-        <img id="imgFinal" class="stage-photo" src="oven-closed.jpg" alt="Gaggenau oven, closed, finished form">
-        <div class="photo-shine" id="photoShine"></div>
+        <img class="stage-photo" src="kitchen-hero.jpg" alt="Gaggenau ovens built into a dark wood kitchen">
+        <img class="stage-photo" src="oven-open.jpg" alt="Gaggenau oven with door open, revealing the interior">
+        <img class="stage-photo" src="oven-closed.jpg" alt="Gaggenau oven, closed, finished form">
+        <img class="stage-photo" src="oven-steam-detail.jpg" alt="Close-up detail of a Gaggenau oven">
+        <img class="stage-photo" src="oven-timer.jpg" alt="Gaggenau oven display counting down a programmed cook time">
+        <img class="stage-photo" src="collection-trio.jpg" alt="Gaggenau oven, coffee machine, and warming drawer built into cabinetry">
       </div>
     </div>
 
     <div class="stage-text">
       <div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
 
-      <div class="panel" id="panel-0">
-        <span class="num">01 — Heritage</span>
-        <h2>Forged in the Black Forest.</h2>
-        <p>Since 1683, Gaggenau has shaped metal into instruments of precision. What began as an iron forge in a small German valley became the origin of the modern professional kitchen.</p>
-      </div>
+      <div class="story-steps" id="storySteps">
+        <div class="step active" id="step-0">
+          <span class="step-num">01 — Heritage</span>
+          <h3>Forged in the Black Forest.</h3>
+          <div class="step-body"><p>Since 1683, Gaggenau has shaped metal into instruments of precision. What began as an iron forge in a small German valley became the origin of the modern professional kitchen.</p></div>
+        </div>
 
-      <div class="panel" id="panel-1">
-        <span class="num">02 — The Interior</span>
-        <h2>Precision, from the inside out.</h2>
-        <p>Open the door and the engineering shows itself: a rear fan, a full-width rack, and a cavity built for even, exacting heat on every level.</p>
-      </div>
+        <div class="step" id="step-1">
+          <span class="step-num">02 — The Interior</span>
+          <h3>Precision, from the inside out.</h3>
+          <div class="step-body"><p>Open the door and the engineering shows itself: a rear fan, a full-width rack, and a cavity built for even, exacting heat on every level.</p></div>
+        </div>
 
-      <div class="panel" id="panel-2">
-        <span class="num">03 — The Door</span>
-        <h2>Hand-finished, by design.</h2>
-        <p>Multi-layer glazing and a hand-polished stainless door hold heat within a fraction of a degree — cool to the touch, precise within.</p>
-      </div>
+        <div class="step" id="step-2">
+          <span class="step-num">03 — The Door</span>
+          <h3>Hand-finished, by design.</h3>
+          <div class="step-body"><p>Multi-layer glazing and a hand-polished stainless door hold heat within a fraction of a degree — cool to the touch, precise within.</p></div>
+        </div>
 
-      <div class="panel" id="panel-3">
-        <span class="num">04 — Detail</span>
-        <h2>Anodized aluminum. Zero compromise.</h2>
-        <p>The dial and trim are milled and anodized by hand, weighted for a tactile response found nowhere else in the kitchen.</p>
-      </div>
+        <div class="step" id="step-3">
+          <span class="step-num">04 — Detail</span>
+          <h3>Anodized aluminum. Zero compromise.</h3>
+          <div class="step-body"><p>The dial and trim are milled and anodized by hand, weighted for a tactile response found nowhere else in the kitchen.</p></div>
+        </div>
 
-      <div class="panel" id="panel-4">
-        <span class="num">05 — Intelligence</span>
-        <h2>Precision you can see.</h2>
-        <p>A full-color display and dial control 4D Hot Air technology — circulating heat from every direction for exact, repeatable results.</p>
-      </div>
+        <div class="step" id="step-4">
+          <span class="step-num">05 — Intelligence</span>
+          <h3>Precision you can see.</h3>
+          <div class="step-body"><p>A full-color display and dial control 4D Hot Air technology — circulating heat from every direction for exact, repeatable results.</p></div>
+        </div>
 
-      <div class="panel" id="panel-5">
-        <span class="num">06 — The Instrument</span>
-        <h2>An instrument, not an appliance.</h2>
-        <p>Three centuries of metalwork, distilled into one machine. This is what happens when engineering is treated as craft.</p>
+        <div class="step" id="step-5">
+          <span class="step-num">06 — The Instrument</span>
+          <h3>An instrument, not an appliance.</h3>
+          <div class="step-body"><p>Three centuries of metalwork, distilled into one machine. This is what happens when engineering is treated as craft.</p></div>
+        </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -788,21 +801,15 @@
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var story = document.querySelector('.story');
-  var imgRaw = document.getElementById('imgRaw');
-  var imgFinal = document.getElementById('imgFinal');
-  var shine = document.getElementById('photoShine');
   var progressFill = document.getElementById('progressFill');
-  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var stepEls = Array.prototype.slice.call(document.querySelectorAll('.step'));
+  var stepImgs = Array.prototype.slice.call(document.querySelectorAll('.stage-photo'));
 
   if (reduceMotion) {
-    imgFinal.style.opacity = 1;
-    imgFinal.style.filter = 'none';
-    imgRaw.style.opacity = 0;
-    panels[0] && panels[0].classList.add('active');
+    // CSS defaults already show the first photo sharp and the first step
+    // active/enlarged, so there's nothing further to do when motion is off.
   } else {
     var clamp = function(v, min, max){ return Math.max(min, Math.min(max, v)); };
-    var ease = function(t){ return 1 - Math.pow(1 - t, 3); }; // easeOutCubic
-    var stepProgress = function(p, start, end){ return clamp((p - start) / (end - start), 0, 1); };
 
     function getRawProgress(){
       var rect = story.getBoundingClientRect();
@@ -812,68 +819,44 @@
     }
 
     // Smoothed progress: eases toward the real scroll position every frame
-    // instead of snapping to it, so both the photo reveal and the text
-    // panels glide rather than jump on fast or jittery scroll input.
+    // instead of snapping to it, so the whole step list glides rather than
+    // jumps on fast or jittery scroll input.
     var smoothed = 0;
     var LERP = 0.09;
 
-    // Panels crossfade continuously based on fractional scroll position:
-    // the outgoing panel fades + drifts up while the incoming one fades
-    // + settles in, so only one is ever fully visible and the handoff
-    // between them is a genuine motion, not a hard cut.
-    var FADE_ZONE = 0.28; // portion of each panel's slot used for fade in/out
-    var DRIFT = 18; // px
-
-    function applyPanels(p){
-      var floatIdx = clamp(p * panels.length, 0, panels.length - 0.0001);
-      var lastIdx = panels.length - 1;
-      panels.forEach(function(panel, i){
-        var d = floatIdx - i; // position within this panel's [0,1) slot
-        var opacity = 0, drift = DRIFT;
-        if (d >= 0 && d < 1) {
-          // The first panel has nothing to fade in from, and the last panel
-          // has nothing to fade out to — both should sit fully visible at
-          // the very start/end of the scroll range instead of fading from/
-          // to blank, which previously left the opening moment of the
-          // section looking empty.
-          var fadeIn = (i === 0) ? 1 : clamp(d / FADE_ZONE, 0, 1);
-          var fadeOut = (i === lastIdx) ? 1 : clamp((1 - d) / FADE_ZONE, 0, 1);
-          opacity = Math.min(fadeIn, fadeOut);
-          drift = DRIFT * (1 - opacity) * (d < 0.5 ? 1 : -1);
-        } else if (d < 0) {
-          drift = DRIFT;
-        } else {
-          drift = -DRIFT;
-        }
-        panel.style.opacity = opacity;
-        panel.style.transform = 'translateY(calc(-50% + ' + drift.toFixed(1) + 'px))';
-        panel.classList.toggle('active', opacity > 0.5);
-      });
+    function mixColor(t){
+      // Interpolates from muted steel to bright white as a step becomes active.
+      var r = Math.round(140 + (244 - 140) * t);
+      var g = Math.round(143 + (242 - 143) * t);
+      var b = Math.round(146 + (238 - 146) * t);
+      return 'rgb(' + r + ',' + g + ',' + b + ')';
     }
 
-    function applyPhoto(p){
-      // Phase A (0 - 0.22): raw/open-door image resolves out of blur + grayscale.
-      // Starts softened rather than fully blank/blurred-out, and resolves over a
-      // shorter range, so the moment the story section first comes into view
-      // there's already a recognizable image and legible panel text — not a
-      // blank, unreadable blur.
-      var revealT = ease(stepProgress(p, 0.0, 0.22));
-      imgRaw.style.opacity = 1;
-      imgRaw.style.filter = 'blur(' + (6 * (1 - revealT)) + 'px) grayscale(' + (0.75 * (1 - revealT)) + ') brightness(' + (0.82 + 0.18 * revealT) + ')';
-      imgRaw.style.transform = 'scale(' + (1.08 - 0.08 * revealT) + ')';
+    // All 6 steps and all 6 photos stay on screen/in the DOM the whole time.
+    // Each step's closeness to the current scroll position drives its own
+    // size, color, and reveal — the active step grows and brightens while
+    // its neighbors shrink back and mute, so nothing ever goes blank and
+    // every step is visible as a persistent, growing/shrinking list rather
+    // than panels that disappear and reappear.
+    function applyStory(p){
+      var floatIdx = clamp(p * stepEls.length, 0, stepEls.length - 0.0001);
 
-      // Phase B (0.42 - 0.66): crossfade to the finished, closed-door image
-      var crossT = ease(stepProgress(p, 0.42, 0.66));
-      imgFinal.style.opacity = crossT;
-      imgFinal.style.filter = 'blur(' + (4 * (1 - crossT)) + 'px) grayscale(' + (0.2 * (1 - crossT)) + ') brightness(' + (0.88 + 0.12 * crossT) + ')';
-      imgFinal.style.transform = 'scale(' + (1.05 - 0.05 * crossT) + ')';
-      imgRaw.style.opacity = 1 - crossT;
+      stepEls.forEach(function(step, i){
+        var t = clamp(1 - Math.abs(floatIdx - i), 0, 1); // 1 = active, 0 = far away
+        var h3 = step.querySelector('h3');
+        var num = step.querySelector('.step-num');
+        h3.style.fontSize = (20 + t * 20).toFixed(1) + 'px';
+        h3.style.color = mixColor(t);
+        num.style.opacity = (0.35 + t * 0.65).toFixed(2);
+        step.style.transform = 'translateX(' + (t * 4).toFixed(1) + 'px)';
+        step.classList.toggle('active', t > 0.5);
+      });
 
-      // Phase C (0.7 - 0.9): a single light sweep across the finished glass
-      var shineT = stepProgress(p, 0.7, 0.9);
-      var shineActive = shineT > 0 && shineT < 1;
-      shine.style.opacity = shineActive ? 1 : 0;
-      shine.style.transform = 'translateX(' + (shineT * 380).toFixed(1) + 'px)';
+      stepImgs.forEach(function(img, i){
+        var t = clamp(1 - Math.abs(floatIdx - i), 0, 1);
+        img.style.opacity = t;
+        img.style.transform = 'scale(' + (1.06 - 0.06 * t).toFixed(3) + ')'; // subtle zoom-out as it becomes active, never blurred
+      });
     }
 
     // The rAF loop only needs to run while scroll position is actually
@@ -891,8 +874,7 @@
       if (settled) smoothed = target;
 
       if (progressFill) progressFill.style.height = (smoothed * 100) + '%';
-      applyPhoto(smoothed);
-      applyPanels(smoothed);
+      applyStory(smoothed);
 
       if (settled) {
         idle = true;
