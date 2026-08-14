@@ -12,8 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="oven-open.jpg">
-<link rel="preload" as="image" href="oven-closed.jpg">
+<link rel="preload" as="image" href="kitchen-island.jpg">
+<link rel="preload" as="image" href="story-refrigeration.jpg">
 <style>
   :root{
     --black:#0a0a0a;
@@ -48,6 +48,8 @@
     font-weight:600;
     letter-spacing:0.34em;
     text-transform:uppercase;
+    text-decoration:none;
+    color:inherit;
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -67,8 +69,6 @@
   nav .nav-links{display:flex;align-items:center;gap:36px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#fff;}
   nav .nav-links a{color:#fff;text-decoration:none;}
   nav .nav-right{display:flex;align-items:center;gap:28px;}
-  /* isolation:isolate opts this out of nav's mix-blend-mode:difference group, so
-     it keeps a stable gold/white color instead of inverting against photos */
   .btn-consult{
     isolation:isolate;
     display:inline-flex;align-items:center;
@@ -332,6 +332,19 @@
   .feature-copy h3{font-size:clamp(26px,2.6vw,36px);color:#f4f2ee;margin-bottom:18px;line-height:1.2;font-weight:500;}
   .feature-copy p{font-size:15px;line-height:1.8;color:var(--steel);font-weight:300;max-width:440px;}
 
+  .video-embed{
+    position:relative;
+    border-radius:3px;overflow:hidden;
+    aspect-ratio:16/9;
+    box-shadow:0 40px 90px rgba(0,0,0,0.55);
+    opacity:0;transform:translateY(24px);
+    transition:opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    background:#050505;
+  }
+  .video-embed.visible{opacity:1;transform:translateY(0);}
+  .video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  #cooling .feature-layout:last-child{margin-bottom:0;}
+
   .feature-grid{
     display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
     background:var(--line);
@@ -349,6 +362,54 @@
   .feature-card .idx{font-size:11px;color:var(--gold);letter-spacing:0.15em;margin-bottom:22px;display:block;}
   .feature-card h3{font-size:24px;color:#f4f2ee;margin-bottom:14px;font-weight:500;}
   .feature-card p{font-size:14px;line-height:1.7;color:var(--steel);font-weight:300;}
+
+  /* ---------- PRODUCTS OVERVIEW GRID ---------- */
+  .product-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line);
+    max-width:1200px;margin:0 auto;
+  }
+  .product-card{
+    position:relative;
+    background:#0a0a0a;
+    aspect-ratio:4/3;
+    overflow:hidden;
+    text-decoration:none;
+    display:flex;align-items:flex-end;
+    opacity:0;transform:translateY(24px);
+    transition:opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  }
+  .product-card.visible{opacity:1;transform:translateY(0);}
+  .product-card img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    filter:brightness(0.55);
+    transition:filter 0.4s ease, transform 0.6s var(--ease);
+  }
+  .product-card:hover img{filter:brightness(0.4);transform:scale(1.05);}
+  .product-card-label{position:relative;z-index:1;padding:26px;width:100%;}
+  .product-card-label .name{
+    font-family:'Bodoni Moda',serif;font-weight:500;font-size:20px;color:#f4f2ee;
+    display:block;margin-bottom:5px;
+  }
+  .product-card-label .tagline{font-size:12px;color:var(--steel-light);font-weight:300;}
+  .product-card.soon{
+    cursor:default;
+    align-items:center;justify-content:center;flex-direction:column;gap:10px;
+    background:#0d0d0d;
+  }
+  .product-card.soon .name{
+    font-family:'Bodoni Moda',serif;font-weight:500;font-size:18px;color:var(--steel);
+  }
+  .product-card.soon .tag{
+    font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--steel);
+    border:1px solid var(--line);padding:4px 11px;border-radius:20px;
+  }
+  @media (max-width:860px){
+    .product-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:520px){
+    .product-grid{grid-template-columns:1fr;}
+  }
 
   /* ---------- CTA / FOOTER ---------- */
   .cta{
@@ -503,7 +564,7 @@
 <body class="no-js">
 
 <nav>
-  <div class="wordmark">Gaggenau</div>
+  <a href="index.html" class="wordmark">Gaggenau</a>
   <div class="nav-links">
     <button class="nav-trigger" id="productsTrigger" aria-expanded="false" aria-controls="productsMenu">
       Products <span class="chevron"></span>
@@ -525,18 +586,18 @@
   <div class="mega-menu-inner">
     <div class="mega-col">
       <span class="mega-col-title">Cooking</span>
-      <a href="#story">Ovens &amp; Combi-Steam Ovens</a>
-      <a href="#warming-drawers">Warming Drawers</a>
+      <a href="ovens.html">Ovens &amp; Combi-Steam Ovens</a>
+      <a href="warming-drawers.html">Warming Drawers</a>
       <a href="#" class="soon">Cooktops <span class="tag">Coming soon</span></a>
     </div>
     <div class="mega-col">
       <span class="mega-col-title">Cooling</span>
-      <a href="#" class="soon">Refrigeration <span class="tag">Coming soon</span></a>
-      <a href="#" class="soon">Wine Climate Cabinets <span class="tag">Coming soon</span></a>
+      <a href="refrigeration.html">Refrigeration</a>
+      <a href="wine-cabinets.html">Wine Climate Cabinets</a>
     </div>
     <div class="mega-col">
       <span class="mega-col-title">More</span>
-      <a href="#coffee-machines">Coffee Machines</a>
+      <a href="coffee-machines.html">Coffee Machines</a>
       <a href="#" class="soon">Ventilation <span class="tag">Coming soon</span></a>
       <a href="#" class="soon">Dishwashers <span class="tag">Coming soon</span></a>
     </div>
@@ -549,12 +610,12 @@
   <details>
     <summary>Products</summary>
     <div class="sub-links">
-      <a href="#story">Ovens &amp; Combi-Steam Ovens</a>
-      <a href="#warming-drawers">Warming Drawers</a>
-      <a href="#coffee-machines">Coffee Machines</a>
+      <a href="ovens.html">Ovens &amp; Combi-Steam Ovens</a>
+      <a href="warming-drawers.html">Warming Drawers</a>
+      <a href="coffee-machines.html">Coffee Machines</a>
       <a href="#" class="soon">Cooktops <span class="tag">Soon</span></a>
-      <a href="#" class="soon">Refrigeration <span class="tag">Soon</span></a>
-      <a href="#" class="soon">Wine Climate Cabinets <span class="tag">Soon</span></a>
+      <a href="refrigeration.html">Refrigeration</a>
+      <a href="wine-cabinets.html">Wine Climate Cabinets</a>
       <a href="#" class="soon">Ventilation <span class="tag">Soon</span></a>
       <a href="#" class="soon">Dishwashers <span class="tag">Soon</span></a>
     </div>
@@ -584,11 +645,11 @@
 
     <div class="stage-visual">
       <div class="photo-frame">
-        <img class="stage-photo" src="kitchen-hero.jpg" alt="Gaggenau ovens built into a dark wood kitchen">
-        <img class="stage-photo" src="oven-open.jpg" alt="Gaggenau oven with door open, revealing the interior">
-        <img class="stage-photo" src="oven-closed.jpg" alt="Gaggenau oven, closed, finished form">
-        <img class="stage-photo" src="oven-steam-detail.jpg" alt="Close-up detail of a Gaggenau oven">
-        <img class="stage-photo" src="oven-timer.jpg" alt="Gaggenau oven display counting down a programmed cook time">
+        <img class="stage-photo" src="kitchen-island.jpg" alt="Gaggenau ovens built into a dark wood kitchen wall">
+        <img class="stage-photo" src="story-refrigeration.jpg" alt="Gaggenau refrigerator open, fully stocked">
+        <img class="stage-photo" src="story-wine.jpg" alt="Gaggenau wine climate cabinet built into wood cabinetry">
+        <img class="stage-photo" src="story-ovens.jpg" alt="Gaggenau oven, closed, finished form">
+        <img class="stage-photo" src="dial-macro.jpg" alt="Close-up of the anodized aluminum dial and full-color display">
         <img class="stage-photo" src="collection-trio.jpg" alt="Gaggenau oven, coffee machine, and warming drawer built into cabinetry">
       </div>
     </div>
@@ -604,35 +665,96 @@
         </div>
 
         <div class="step" id="step-1">
-          <span class="step-num">02 — The Interior</span>
-          <h3>Precision, from the inside out.</h3>
-          <div class="step-body"><p>Open the door and the engineering shows itself: a rear fan, a full-width rack, and a cavity built for even, exacting heat on every level.</p></div>
+          <span class="step-num">02 — Refrigeration</span>
+          <h3>Freshness, held longer.</h3>
+          <div class="step-body"><p>A dark brushed interior, adaptive lighting, and independently controlled drawers keep every ingredient at exactly the condition it was stored in.</p></div>
         </div>
 
         <div class="step" id="step-2">
-          <span class="step-num">03 — The Door</span>
-          <h3>Hand-finished, by design.</h3>
-          <div class="step-body"><p>Multi-layer glazing and a hand-polished stainless door hold heat within a fraction of a degree — cool to the touch, precise within.</p></div>
+          <span class="step-num">03 — Wine Climate Cabinets</span>
+          <h3>Every bottle, at its ideal temperature.</h3>
+          <div class="step-body"><p>Independent climate zones and automatic tempering bring each bottle to serving temperature on its own — precision built for a collection, not just a fridge.</p></div>
         </div>
 
         <div class="step" id="step-3">
-          <span class="step-num">04 — Detail</span>
-          <h3>Anodized aluminum. Zero compromise.</h3>
-          <div class="step-body"><p>The dial and trim are milled and anodized by hand, weighted for a tactile response found nowhere else in the kitchen.</p></div>
+          <span class="step-num">04 — Ovens</span>
+          <h3>Heat, engineered.</h3>
+          <div class="step-body"><p>4D Hot Air technology and a hand-finished steel door — the same standard that's shaped every Gaggenau oven since the Black Forest forge.</p></div>
         </div>
 
         <div class="step" id="step-4">
           <span class="step-num">05 — Intelligence</span>
-          <h3>Precision you can see.</h3>
-          <div class="step-body"><p>A full-color display and dial control 4D Hot Air technology — circulating heat from every direction for exact, repeatable results.</p></div>
+          <h3>One interface, every appliance.</h3>
+          <div class="step-body"><p>The anodized dial doubles as a display bezel across the range — turn to set, press to confirm, the same gesture from oven to coffee machine.</p></div>
         </div>
 
         <div class="step" id="step-5">
-          <span class="step-num">06 — The Instrument</span>
-          <h3>An instrument, not an appliance.</h3>
-          <div class="step-body"><p>Three centuries of metalwork, distilled into one machine. This is what happens when engineering is treated as craft.</p></div>
+          <span class="step-num">06 — The Collection</span>
+          <h3>One design language, every appliance.</h3>
+          <div class="step-body"><p>Oven, coffee machine, and warming drawer share a single visual signature, so a wall of appliances reads as one considered composition.</p></div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS OVERVIEW -->
+<section class="features" id="products">
+  <div class="features-head">
+    <div class="eyebrow">The Range</div>
+    <h2>Every product.<br>One standard.</h2>
+  </div>
+  <div class="product-grid">
+    <a class="product-card" href="ovens.html">
+      <img src="oven-closed.jpg" alt="Gaggenau ovens" loading="lazy" decoding="async">
+      <div class="product-card-label">
+        <span class="name">Ovens &amp; Combi-Steam</span>
+        <span class="tagline">4D Hot Air, precision heat</span>
+      </div>
+    </a>
+    <div class="product-card soon">
+      <span class="name">Cooktops</span>
+      <span class="tag">Coming soon</span>
+    </div>
+    <div class="product-card soon">
+      <span class="name">Ventilation</span>
+      <span class="tag">Coming soon</span>
+    </div>
+    <a class="product-card" href="warming-drawers.html">
+      <img src="warming-drawer.jpg" alt="Gaggenau warming drawers" loading="lazy" decoding="async">
+      <div class="product-card-label">
+        <span class="name">Warming &amp; Vacuum Drawers</span>
+        <span class="tagline">Held at the right temperature</span>
+      </div>
+    </a>
+    <a class="product-card" href="coffee-machines.html">
+      <img src="coffee-machine.jpg" alt="Gaggenau coffee machines" loading="lazy" decoding="async">
+      <div class="product-card-label">
+        <span class="name">Coffee Machines</span>
+        <span class="tagline">Espresso, to standard</span>
+      </div>
+    </a>
+    <a class="product-card" href="refrigeration.html">
+      <img src="fridge-open-wide.jpg" alt="Gaggenau refrigeration" loading="lazy" decoding="async">
+      <div class="product-card-label">
+        <span class="name">Refrigeration</span>
+        <span class="tagline">Freshness, held longer</span>
+      </div>
+    </a>
+    <a class="product-card" href="wine-cabinets.html">
+      <img src="wine-cabinet.jpg" alt="Gaggenau wine climate cabinets" loading="lazy" decoding="async">
+      <div class="product-card-label">
+        <span class="name">Wine Climate Cabinets</span>
+        <span class="tagline">Every bottle, ideal</span>
+      </div>
+    </a>
+    <div class="product-card soon">
+      <span class="name">Dishwashers</span>
+      <span class="tag">Coming soon</span>
+    </div>
+    <div class="product-card soon">
+      <span class="name">Washing &amp; Drying</span>
+      <span class="tag">Coming soon</span>
     </div>
   </div>
 </section>
@@ -655,29 +777,7 @@
     </div>
   </div>
 
-  <div class="feature-layout reverse">
-    <div class="feature-photo">
-      <img src="dial-macro.jpg" alt="Close-up of the anodized aluminum dial and full-color display" loading="lazy" decoding="async">
-    </div>
-    <div class="feature-copy">
-      <div class="eyebrow">The Interface</div>
-      <h3>Every gesture, considered.</h3>
-      <p>The anodized dial doubles as a display bezel — turn to set temperature, press to confirm. A full-color screen guides every step, from preheat to done, without a single button in sight.</p>
-    </div>
-  </div>
-
   <div class="feature-layout">
-    <div class="feature-photo">
-      <img src="vacuum-drawer.jpg" alt="Gaggenau vacuuming drawer sealing glass jars" loading="lazy" decoding="async">
-    </div>
-    <div class="feature-copy">
-      <div class="eyebrow">Preservation</div>
-      <h3>Seal in what matters.</h3>
-      <p>A dedicated vacuuming drawer seals jars, marinates in minutes, and extends freshness — precision engineering applied well beyond the oven itself.</p>
-    </div>
-  </div>
-
-  <div class="feature-layout reverse">
     <div class="feature-photo">
       <img src="finish-comparison.jpg" alt="Gaggenau ovens shown in graphite and stainless steel finishes side by side" loading="lazy" decoding="async">
     </div>
@@ -685,72 +785,6 @@
       <div class="eyebrow">Finish</div>
       <h3>Graphite or stainless. Your standard.</h3>
       <p>Every appliance is available in a graphite or stainless steel finish, so the same instrument can disappear into dark cabinetry or stand out against a brighter, minimalist room.</p>
-    </div>
-  </div>
-
-  <div class="feature-layout" id="warming-drawers">
-    <div class="feature-photo">
-      <img src="warming-drawer.jpg" alt="Gaggenau warming drawer, open, holding warmed cups" loading="lazy" decoding="async">
-    </div>
-    <div class="feature-copy">
-      <div class="eyebrow">Warming Drawers</div>
-      <h3>Held at exactly the right temperature.</h3>
-      <p>Plates, cups, proofing dough, or a finished dish waiting on the table — the warming drawer holds each at the precise, gentle heat that keeps it ready, not cooking.</p>
-    </div>
-  </div>
-
-  <div class="feature-layout reverse" id="coffee-machines">
-    <div class="feature-photo">
-      <img src="coffee-machine.jpg" alt="Gaggenau built-in coffee machine dispensing espresso into a cup" loading="lazy" decoding="async">
-    </div>
-    <div class="feature-copy">
-      <div class="eyebrow">Coffee Machines</div>
-      <h3>Espresso, finished in the same standard.</h3>
-      <p>The fully automatic machine grinds and brews directly into the cup, built into the same glass, steel, and anodized dial as the oven beside it — one appliance wall, one language.</p>
-    </div>
-  </div>
-
-  <div class="feature-layout">
-    <div class="feature-photo">
-      <img src="oven-timer.jpg" alt="Gaggenau oven display counting down a programmed cook time" loading="lazy" decoding="async">
-    </div>
-    <div class="feature-copy">
-      <div class="eyebrow">Precision Timing</div>
-      <h3>Set it, and walk away.</h3>
-      <p>Program a cook time down to the minute. The display counts down, the dial glows to mark it, and the oven carries the rest — precise enough to trust without checking.</p>
-    </div>
-  </div>
-
-  <div class="feature-grid">
-    <div class="feature-card">
-      <span class="idx">01</span>
-      <h3>4D Hot Air</h3>
-      <p>Heat circulates from a rear fan and radiant ring simultaneously, cooking on multiple levels with no flavor transfer between dishes.</p>
-    </div>
-    <div class="feature-card">
-      <span class="idx">02</span>
-      <h3>Full-Color Display</h3>
-      <p>An intuitive display and dial replace clutter with clarity — every program, temperature, and timer at a glance.</p>
-    </div>
-    <div class="feature-card">
-      <span class="idx">03</span>
-      <h3>Hand-Finished Steel</h3>
-      <p>Each door and trim is polished and anodized by hand, the final step in a process that treats every unit as an individual piece.</p>
-    </div>
-    <div class="feature-card">
-      <span class="idx">04</span>
-      <h3>Telescopic Rails</h3>
-      <p>Fully extending rails carry a roasting pan smoothly to eye level — precision engineering applied to the smallest gesture.</p>
-    </div>
-    <div class="feature-card">
-      <span class="idx">05</span>
-      <h3>Multi-Layer Glazing</h3>
-      <p>Triple-glazed glass keeps the exterior cool while holding the interior within a fraction of a degree of the set temperature.</p>
-    </div>
-    <div class="feature-card">
-      <span class="idx">06</span>
-      <h3>Three Centuries of Craft</h3>
-      <p>Since 1683, every design decision traces back to a single standard: built as an instrument, not a convenience.</p>
     </div>
   </div>
 </section>
@@ -787,7 +821,7 @@
 </section>
 
 <footer>
-  <div class="wordmark">Gaggenau</div>
+  <a href="index.html" class="wordmark">Gaggenau</a>
   <div>Est. 1683 — Black Forest, Germany</div>
 </footer>
 
@@ -964,7 +998,7 @@
   }
 
   // Feature/CTA/Contact reveal on scroll — native IntersectionObserver, no library required.
-  var revealTargets = document.querySelectorAll('.feature-card, .feature-photo, .cta, .contact');
+  var revealTargets = document.querySelectorAll('.feature-card, .feature-photo, .video-embed, .product-card, .cta, .contact');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
